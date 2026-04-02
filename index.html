@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>xeRoX | Ultimate WhatsApp Shield</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0a0000, #000000);
+            font-family: 'Orbitron', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 40, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 40, 0, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #ff3300, #ff7700, #ff3300);
+            box-shadow: 0 0 15px #ff5500;
+            z-index: 10;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 580px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 60, 0, 0.5);
+            border-radius: 48px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px rgba(255, 40, 0, 0.3);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #ff4d1e, #ff9a2e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px #ff3c00;
+            margin-bottom: 0.25rem;
+        }
+
+        .badge {
+            text-align: center;
+            color: #ff6a2e;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            border-bottom: 1px solid #ff4d2e;
+            display: inline-block;
+            width: auto;
+            margin: 0 auto 1.5rem auto;
+            padding-bottom: 6px;
+        }
+
+        .input-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: #ff7e3a;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .cyber-input {
+            width: 100%;
+            background: #0a0502;
+            border: 1.5px solid #ff5722;
+            padding: 14px 18px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            color: #ffb27a;
+            border-radius: 60px;
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: inset 0 0 6px #ff2a00, 0 0 8px rgba(255, 68, 0, 0.3);
+        }
+
+        .cyber-input:focus {
+            border-color: #ffaa33;
+            box-shadow: 0 0 18px #ff4c1a, inset 0 0 5px #ff7b2e;
+            color: #ffcba0;
+        }
+
+        .shield-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0 30px;
+        }
+
+        .shield-card {
+            background: rgba(0, 0, 0, 0.75);
+            border: 1.5px solid #ff451e;
+            border-radius: 100px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .shield-card.selected {
+            border: 2px solid #ff7b2c;
+            background: linear-gradient(95deg, rgba(255, 50, 0, 0.25), rgba(0,0,0,0.85));
+            box-shadow: 0 0 18px #ff5e1a;
+        }
+
+        .shield-radio {
+            display: flex;
+            align-items: center;
+            padding: 12px 22px;
+            gap: 18px;
+        }
+
+        .shield-radio input {
+            width: 20px;
+            height: 20px;
+            accent-color: #ff5e1a;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .shield-info h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6324, #ffaa44);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .shield-info p {
+            font-size: 0.65rem;
+            color: #ff9f6e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .neon-btn {
+            position: relative;
+            width: 100%;
+            background: linear-gradient(90deg, #ff3a0a, #ff6a2a);
+            border: none;
+            padding: 16px 0;
+            font-family: 'Orbitron', monospace;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #000;
+            text-shadow: 0 0 5px #ffcc88;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.15s;
+            overflow: hidden;
+            box-shadow: 0 0 12px #ff4c1a;
+        }
+
+        .neon-btn:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 28px #ff6a2a;
+            color: #fff;
+        }
+
+        .neon-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status-box {
+            margin-top: 25px;
+            background: #030101cc;
+            border-left: 5px solid #ff4a1e;
+            padding: 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #ffa66b;
+            text-align: center;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .network-stats {
+            margin-top: 12px;
+            font-size: 0.6rem;
+            color: #ff884d;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.6rem;
+            color: #ff6324;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+<div class="glow-line"></div>
+<div class="container">
+    <div class="title">XE ROX</div>
+    <div style="text-align: center;"><span class="badge">// ULTIMATE SHIELD PROTOCOL //</span></div>
+
+    <div class="input-group">
+        <label>🎯 TARGET NUMBER</label>
+        <input type="tel" id="phoneNumber" class="cyber-input" placeholder="+6281234567890">
+    </div>
+
+    <div class="shield-options" id="shieldOptions">
+        <div class="shield-card" data-value="anti_ban">
+            <label class="shield-radio">
+                <input type="radio" name="shield" value="anti_ban">
+                <div class="shield-info">
+                    <h3>🔰 ANTI BAN</h3>
+                    <p>PERMANENT BAN IMMUNITY</p>
+                </div>
+            </label>
+        </div>
+        <div class="shield-card" data-value="anti_limit">
+            <label class="shield-radio">
+                <input type="radio" name="shield" value="anti_limit">
+                <div class="shield-info">
+                    <h3>⚡ ANTI LIMIT</h3>
+                    <p>RATE LIMIT BYPASS</p>
+                </div>
+            </label>
+        </div>
+        <div class="shield-card" data-value="multi_shield">
+            <label class="shield-radio">
+                <input type="radio" name="shield" value="multi_shield">
+                <div class="shield-info">
+                    <h3>🛡️ MULTI SHIELD</h3>
+                    <p>BAN + LIMIT ELIMINATOR</p>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <button id="activateBtn" class="neon-btn">⟁ ACTIVATE SHIELD ⟁</button>
+
+    <div id="statusMessage" class="status-box">
+        ⚡ SYSTEM READY ⚡<br>
+        Waiting for target & shield selection
+    </div>
+    <div class="network-stats">
+        <span id="networkStatus">🌐 NETWORK: READY</span>
+        <span id="shieldCount">🛡️ ACTIVE: 0</span>
+    </div>
+    <footer>REAL-TIME PROTECTION | NO SIMULATION | 100% ACTIVE</footer>
+</div>
+
+<script>
+    const API_BASE = window.location.origin;
+    let selectedShield = null;
+
+    const phoneInput = document.getElementById('phoneNumber');
+    const radioButtons = document.querySelectorAll('input[name="shield"]');
+    const shieldCards = document.querySelectorAll('.shield-card');
+    const activateBtn = document.getElementById('activateBtn');
+    const statusDiv = document.getElementById('statusMessage');
+    const networkStatusSpan = document.getElementById('networkStatus');
+    const shieldCountSpan = document.getElementById('shieldCount');
+
+    function updateSelection(value) {
+        shieldCards.forEach(card => {
+            if (card.getAttribute('data-value') === value) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+        });
+        selectedShield = value;
+    }
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.checked) updateSelection(e.target.value);
+        });
+    });
+
+    shieldCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const radio = card.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+                updateSelection(radio.value);
+            }
+        });
+    });
+
+    async function fetchActiveShields() {
+        try {
+            const res = await fetch(`${API_BASE}/api/active-shields`);
+            const data = await res.json();
+            if (data.success) {
+                shieldCountSpan.innerHTML = `🛡️ ACTIVE: ${data.total}`;
+            }
+        } catch(e) {}
+    }
+
+    async function activateShield() {
+        const phone = phoneInput.value.trim();
+        
+        if (!selectedShield) {
+            statusDiv.innerHTML = '⛔ SELECT SHIELD TYPE FIRST ⛔\nPilih: ANTI BAN / ANTI LIMIT / MULTI SHIELD';
+            return;
+        }
+        
+        if (!phone || !phone.match(/^\+?[0-9]{8,15}$/)) {
+            statusDiv.innerHTML = '❌ INVALID NUMBER ❌\nGunakan format: +628xxxxxxxxxx';
+            return;
+        }
+        
+        statusDiv.innerHTML = '🌀 DEPLOYING REAL SHIELD ... 🌀\nConnecting to WhatsApp protection engine...';
+        activateBtn.disabled = true;
+        networkStatusSpan.innerHTML = '📡 DEPLOYING...';
+        
+        try {
+            const response = await fetch(`${API_BASE}/api/activate-shield`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    number: phone,
+                    protection: selectedShield,
+                    timestamp: Date.now()
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                statusDiv.innerHTML = `${result.message}\n\n📱 ${result.number}\n🔑 TOKEN: ${result.shieldToken.substring(0, 30)}...\n✅ SHIELD ACTIVE PERMANENTLY`;
+                statusDiv.style.borderLeftColor = '#ff7b2e';
+                networkStatusSpan.innerHTML = '🛡️ SHIELD ACTIVE';
+                await fetchActiveShields();
+            } else {
+                statusDiv.innerHTML = `❌ DEPLOY FAILED ❌\n${result.message}`;
+                networkStatusSpan.innerHTML = '⚠️ FAILED';
+            }
+        } catch(error) {
+            statusDiv.innerHTML = `❌ NETWORK ERROR ❌\n${error.message}\nCoba lagi nanti`;
+            networkStatusSpan.innerHTML = '⚠️ ERROR';
+        }
+        
+        activateBtn.disabled = false;
+        setTimeout(() => {
+            networkStatusSpan.innerHTML = '🌐 NETWORK: READY';
+        }, 3000);
+    }
+
+    activateBtn.addEventListener('click', activateShield);
+    
+    if (radioButtons.length > 0) {
+        radioButtons[0].checked = true;
+        updateSelection(radioButtons[0].value);
+    }
+    
+    fetchActiveShields();
+    setInterval(fetchActiveShields, 10000);
+    
+    fetch(`${API_BASE}/api/status`)
+        .then(() => networkStatusSpan.innerHTML = '🌐 NETWORK: CONNECTED')
+        .catch(() => networkStatusSpan.innerHTML = '⚠️ OFFLINE MODE');
+</script>
+</body>
+</html>
